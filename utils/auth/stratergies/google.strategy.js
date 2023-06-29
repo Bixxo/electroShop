@@ -19,7 +19,7 @@ const GoogleStrategy = new Strategy({
                 email: profile.emails[0].value,
                 googleId: profile.id,
                 admin: false,
-                active: false,
+                active: true,
                 password: config.googlePass
             });
         }

@@ -64,6 +64,18 @@ class UserService {
         return user
     }
 
+    async deleteUser(id) {
+        const user = await this.findUserByID(id);
+        await user.update({active: false});
+        return {msg: `${user.username} eliminado correctamente`}
+    }
+
+    async activeUser(id) {
+        const user = await this.findUserByID(id);
+        await user.update({active: true});
+        return {msg: `${user.username} activado correctamente`}
+    }
+
     async findUserByEmailOrPhone({ email, phoneNumber }) {
         let user;
         const whereClause = {};

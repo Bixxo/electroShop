@@ -227,5 +227,25 @@ router.patch('/', validorHanlder(updateUser, 'body'), async (req, res, next) => 
     }
 });
 
+router.delete('/:id', validorHanlder(searchUser, 'params'), async ( req, res, next ) => {
+    const { id } = req.params;
+    try {
+        const response = await service.deleteUser(id);
+        res.json(response);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.patch('/:id', validorHanlder(searchUser, 'params'), async ( req, res, next ) => {
+    const { id } = req.params;
+    try {
+        const response = await service.activeUser(id);
+        res.json(response);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 module.exports = router
