@@ -19,7 +19,7 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:8080/api/v1",
+                url: "https://electroshop-api.onrender.com/api/v1",
                 description: "API a consumir",
             }
         ]
