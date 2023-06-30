@@ -46,6 +46,17 @@ const errroHablderDb = (err, req, res, next) => {
     }
 }
 
+const errorUploadFile = (err, req, res, next) => {
+  if(err instanceof multer.MulterError) {
+      res.status(409).json({
+          statusCode: 409,
+          error: 'error al cargar archivo'
+      })
+  } else {
+      next(err);
+  }
+}
+
 const logError = (err, req, res, next) => {
     console.log(err)
     next(err);
@@ -56,5 +67,6 @@ module.exports = {
     errorHanlder,
     errroHablderDb,
     logError,
-    boomErrorHandlerData
+    boomErrorHandlerData,
+    errorUploadFile
 }
