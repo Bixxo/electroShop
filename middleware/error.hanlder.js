@@ -1,4 +1,5 @@
 const { ValidationError } = require('sequelize');
+const multer = require('multer');
 
 const boomErrorHandler = (err, req, res, next) => {
     console.log(err);

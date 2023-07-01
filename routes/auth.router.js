@@ -77,10 +77,12 @@ const rotuer = express.Router();
 rotuer.post('/login', passport.authenticate('local', { session: false }), async ( req, res, next ) => {
     try {
         const user = req.user;
+        console.log(user)
         const payload = {
-            sub: user.id,
-            admin: user.admin
+            sub: user.data.id,
+            admin: user.data.admin
         }
+        console.log(payload);
         const token = jwt.sign(payload, config.jwtSecret);
         res.json({user, token})
     } catch (error) {
