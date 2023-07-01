@@ -14,7 +14,7 @@ class ReviewService {
         await productService.findById(data.productId)
         //agregar buscar usuario
         const review = await models.Review.create(data);
-        await sequelize.query(`SELECT fun_calcularpromedioresenia(${data.productId}, ${data.rating})`);
+        await sequelize.query(`SELECT fun_calcularpromedioresenia(${data.productId})`);
         return review;
     }
 
