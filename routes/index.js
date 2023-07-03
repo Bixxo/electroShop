@@ -8,7 +8,9 @@ const authRouter = require('./auth.router');
 const tagRouter = require('./tag.router.js');
 const orderRouter = require('./order.router')
 const paymentRouter = require('./payment.router')
+const nodemailerRouter = require('./nodemailer.router')
 const upload = require('./upload.router');
+
 
 /**
  * @swagger
@@ -471,7 +473,9 @@ const routerApi = app => {
     router.use('/tag', tagRouter);
     router.use('/order', orderRouter)
     router.use('/payment', paymentRouter)
+    router.use('/contact', nodemailerRouter)
     router.use('/uploads', upload);
+
 }
 
 module.exports = routerApi;
