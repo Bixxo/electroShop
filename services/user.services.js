@@ -9,7 +9,7 @@ class UserService {
     async createUser (data) {
 
         await this.findByDNI(data.dni);
-        await this.findByEmailCreate(data.emial);
+        await this.findByEmailCreate(data.email);
         await this.findByPhone(data.phoneNumber);
         
         const hash = await bcrypt.hash(data.password, 10);

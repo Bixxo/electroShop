@@ -4,7 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const cors = require('cors');
 const routerApi = require('./routes/index');
-const { boomErrorHandler, errorHanlder, errroHablderDb, logError, boomErrorHandlerData } = require('./middleware/error.hanlder');
+const { boomErrorHandler, errorHanlder, errroHablderDb, logError, boomErrorHandlerData, errorUploadFile } = require('./middleware/error.hanlder');
 
 const app = express();
 const PORT = 8080;
@@ -30,6 +30,7 @@ const swaggerSpec = swaggerJSDoc(options);
 
 app.use(cors());
 app.use(express.json());
+app.use('/images', express.static('./uploads'));
 app.use(morgan('dev'));
 
 require('./utils/auth');
@@ -43,6 +44,7 @@ app.use(logError);
 app.use(boomErrorHandler);
 app.use(errroHablderDb);
 app.use(boomErrorHandlerData);
+app.use(errorUploadFile)
 app.use(errorHanlder);
 
 app.listen(PORT, () => {

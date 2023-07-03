@@ -24,7 +24,8 @@ class ProductService {
   async findAllProducts() {
     const products = await models.Product.findAll({
       include: ['category'],
-      attributes: { exclude: ['categoryId'] }
+      attributes: { exclude: ['categoryId'], },
+      order: [['name', 'ASC']]
     });
     if(!products.length) {
         throw boom.notFound(`No se enecuntrar datos cargados en la base de datos`);
