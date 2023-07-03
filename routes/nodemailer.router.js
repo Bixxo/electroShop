@@ -188,4 +188,27 @@ router.post('/',async ( req, res, next ) => {
     return res.status(400).json({ message: 'bad Request' })
     })
 
+    router.post('/complete/:email', async function (req, res) {
+      const {email} = req.params
+      try {
+        const response = await transporter.sendMail({
+        from: `"ELECTROSHOP" <${process.env.EMAIL}>`,
+        to: email,
+        subject: 'Purchase completed',
+        text: 'Thank you for making your purchase at ELECTROSHOP, your order will arrive soon.',
+      });
+    
+      res.status(200).json({ ok: true, message: 'mensaje enviado con éxito', response: response});
+    
+      } catch (error) {
+    
+        res.status(404).json(error.message)
+    
+      }
+    
+    
+    });
+
+
+
 module.exports = router
