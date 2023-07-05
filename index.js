@@ -28,11 +28,7 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 
-app.use(cors({
-    origin: '*', // Permitir solo solicitudes desde este origen
-    // methods: 'GET,POST', // Permitir solo los métodos GET y POST
-    // allowedHeaders: 'Content-Type,Authorization' // Permitir solo estos encabezados
-    }));
+app.use(cors());
 app.use(express.json());
 app.use('/images', express.static('./uploads'));
 app.use(morgan('dev'));
