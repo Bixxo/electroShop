@@ -12,11 +12,12 @@ class UserService {
         await this.findByEmailCreate(data.email);
         await this.findByPhone(data.phoneNumber);
         
-        const hash = await bcrypt.hash(data.password, 10);
-        const newUser = await models.User.create({
-            ...data,
-            password: hash
-        });
+        // const hash = await bcrypt.hash(data.password, 10);
+        // const newUser = await models.User.create({
+        //     ...data,
+        //     password: hash
+        // });
+        const newUser = await models.User.create({data});
         delete newUser.dataValues.password;
         return newUser;
     }
