@@ -1,6 +1,5 @@
 const boom = require('@hapi/boom');
-const { models } = require('../libs/sequelize');
-const sequelize = require('../libs/sequelize');
+const { models,literal,query } = require('../libs/sequelize');
 
 
 class OrderServices {
@@ -36,17 +35,16 @@ class OrderServices {
 
                 await models.Product.update(
                     {
-                      stock: sequelize.literal(
+                    stock: literal(
                         `GREATEST(stock - ${product.quantity}, 0)`
-                      ),
+                    ),
                     },
                     { where: { id: product.productId } }
-                  );
+                );
 
-                //await sequelize.query(`SELECT fun_sumavendidos(${product.productId}, ${product.quantity})`); 
+                //await query(`SELECT fun_sumavendidos(${product.productId}, ${product.quantity})`); 
             }
         }
-
 
         return order;
     }
@@ -55,16 +53,16 @@ class OrderServices {
         const order = await models.Orders.findByPk(id, {
             include: [
                 {
-                  model: models.Product,
-                  as: 'products',
-                  through: {
-                    attributes: ['quantity'], // Incluir solo la columna de cantidad desde la tabla de unión OrderProducts
-                  },
-                  attributes: {
-                    exclude: ['OrderProducts'] // Excluir la relación OrderProducts en la respuesta
-                  }
-                },
-              ],
+                    model: models.Product,
+                    as: 'products',
+                    through: {
+                        attributes: ['quantity'], // Incluir solo la columna de cantidad desde la tabla de unión OrderProducts
+                    },
+                    attributes: {
+                        exclude: ['OrderProducts'] // Excluir la relación OrderProducts en la respuesta
+                    }
+                    },
+                ],
         });
         if(!order){
             throw boom.notFound(`No se enecuentra ordenes cargados en la base de datos con el id ${id}`);
@@ -84,5 +82,8 @@ class OrderServices {
 
 
 }
+
+
+
 
 module.exports = OrderServices
