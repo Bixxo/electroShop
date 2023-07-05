@@ -1,5 +1,6 @@
 const boom = require('@hapi/boom');
-const { models,Sequelize } = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
+const sequelize = require('../libs/sequelize');
 
 
 class OrderServices {
@@ -35,14 +36,14 @@ class OrderServices {
 
                 await models.Product.update(
                     {
-                      stock: Sequelize.literal(
+                      stock: sequelize.literal(
                         `GREATEST(stock - ${product.quantity}, 0)`
                       ),
                     },
                     { where: { id: product.productId } }
                   );
 
-                await Sequelize.query(`SELECT fun_sumavendidos(${product.productId}, ${product.quantity})`); 
+                //await sequelize.query(`SELECT fun_sumavendidos(${product.productId}, ${product.quantity})`); 
             }
         }
 
