@@ -3,6 +3,7 @@ const passport = require('passport');
 const validorHanlder = require('../middleware/validaor.hanlder');
 const CategoryService = require('../services/category.services');
 const { createCategory, updateCategory, searchCategory } = require('../schemas/category.schema');
+const { checkAdmin } = require('../middleware/auth.handler');
 
 const router = express.Router();
 const service = new CategoryService();
@@ -163,8 +164,12 @@ router.get('/:id', validorHanlder(searchCategory, 'params'), async ( req, res, n
   *         - bearerAuth: []
  *       
 */
-router.post('/', passport.authenticate('jwt', { session: false }),
-    validorHanlder(createCategory, 'body'), async ( req, res, next ) => {
+router.post('/', 
+    passport.authenticate('jwt', { session: false }),
+    checkAdmin,
+    validorHanlder(createCategory, 'body'), 
+    async ( req, res, next ) => {
+
     const body = req.body
     try {
         const cateogry = await service.createCategory(body);
