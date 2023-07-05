@@ -33,9 +33,21 @@ class OrderServices {
                     unitPrice: product.unitPrice,
                     discount: product.discount
                 });
+
+                await models.Products.update(
+                    {
+                      stock: sequelize.literal(
+                        `GREATEST(stock - ${product.quantity}, 0)`
+                      ),
+                    },
+                    { where: { id: product.productId } }
+                  );
+
                 await sequelize.query(`SELECT fun_sumavendidos(${product.productId}, ${product.quantity})`); 
             }
         }
+
+
         return order;
     }
 
