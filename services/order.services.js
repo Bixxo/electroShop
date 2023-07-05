@@ -70,14 +70,73 @@ class OrderServices {
         return order;
     }
 
-    async getOrdersOfUser(id){
+    // async getOrdersOfUser(id){
+    //     const orders = await models.Orders.findAll({
+    //         include: [
+    //             {
+    //                 model: models.Product,
+    //                 as: 'products',
+    //                 through: {
+    //                     attributes: ['quantity'], // Incluir solo la columna de cantidad desde la tabla de unión OrderProducts
+    //                 },
+    //                 attributes: {
+    //                     exclude: ['OrderProducts'] // Excluir la relación OrderProducts en la respuesta
+    //                 }
+    //             },
+    //         ],
+    //         where : { userId : id }
+    //     })
+    //     if(!orders){
+    //         throw boom.notFound(`El usuario con el id ${id} no tiene ordenes cargadas`);
+    //     }
+    //     return orders
+    // }
+
+    async getFormattedOrdersOfUser(id) {
         const orders = await models.Orders.findAll({
-            where : { userId : id }
-        })
-        if(!orders){
-            throw boom.notFound(`El usuario con el id ${id} no tiene ordenes cargadas`);
-        }
-        return orders
+            include: [
+                {
+                model: models.Product,
+                as: 'products',
+                through: {
+                    attributes: ['quantity'],
+                },
+                attributes: {
+                    exclude: ['OrderProducts'],
+                },
+                },
+            ],
+            where: { userId: id },
+            });
+        
+            if (!orders) {
+            throw boom.notFound(`El usuario con el id ${id} no tiene órdenes cargadas`);
+            }
+        
+        // Formatear los datos
+        const formattedOrders = orders.map((order) => {
+        const formattedProducts = order.products.map((product) => ({
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            image: product.image,
+            price: product.price,
+            categoryId: product.categoryId,
+            quantity: product.OrderProducts.quantity,
+            total: product.OrderProducts.quantity * product.price,
+        }));
+
+        return {
+            id: order.id,
+            dateCreated: order.dateCreated,
+            expirationDate: order.expirationDate,
+            active: order.active,
+            complete: order.complete,
+            products: formattedProducts,
+            };
+        });
+
+        return formattedOrders;
     }
 
 

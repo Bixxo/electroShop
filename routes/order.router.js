@@ -30,7 +30,7 @@ router.get('/:id', async ( req, res, next ) => {
 router.get('/user/:id', async ( req, res, next ) => {
     const { id } = req.params
     try {
-        const order = await service.getOrdersOfUser(id);
+        const order = await service.getFormattedOrdersOfUser(id);
         res.json(order);
     } catch (error) {
         next(error)
