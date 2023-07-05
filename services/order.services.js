@@ -34,7 +34,7 @@ class OrderServices {
                     discount: product.discount
                 });
 
-                await models.Products.update(
+                await models.Product.update(
                     {
                       stock: sequelize.literal(
                         `GREATEST(stock - ${product.quantity}, 0)`
