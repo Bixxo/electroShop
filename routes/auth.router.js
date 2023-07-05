@@ -74,7 +74,10 @@ const rotuer = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorServer'
  */
-rotuer.post('/login', passport.authenticate('local', { session: false }), async ( req, res, next ) => {
+rotuer.post('/login', 
+    passport.authenticate('local', { session: false }), 
+    async ( req, res, next ) => {
+
     try {
         const user = req.user;
         console.log(user)
@@ -82,7 +85,6 @@ rotuer.post('/login', passport.authenticate('local', { session: false }), async 
             sub: user.data.id,
             admin: user.data.admin
         }
-        console.log(payload);
         const token = jwt.sign(payload, config.jwtSecret);
         res.json({user, token})
     } catch (error) {
