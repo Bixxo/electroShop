@@ -86,7 +86,7 @@ rotuer.post('/login',
             admin: user.data.admin
         }
         const token = jwt.sign(payload, config.jwtSecret);
-        res.json({user, token})
+        res.json({user, token, status: true})
     } catch (error) {
         next(error)
     }
