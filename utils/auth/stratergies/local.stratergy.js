@@ -14,10 +14,10 @@ const LocalStratergy = new Strategy({
         try {
             const user = await service.findUserByEmail(email);
             if(!user) {
-                done({status: false}, false);
+                done(null, {status: false, data: boom.unauthorized()});
             }
             if (!await bcrypt.compare(password, user.password)) {
-                done({status: false}, false);
+                done(null, {status: false, data: boom.unauthorized()});
             }
             delete user.dataValues.password;
             done(null, { data: user})
