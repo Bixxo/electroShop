@@ -18,7 +18,7 @@ class PaymentService {
             },
         ],
         back_urls: {
-            success: "https://electro-shop-client-asekdr112-daniellatta.vercel.app/products/confirmed",
+            success: "https://electro-shop-client-asekdr112-daniellatta.vercel.app/confirmed",
             failure: "http://localhost:3000/failure",
             pending: "http://localhost:3000/pending",
         }
