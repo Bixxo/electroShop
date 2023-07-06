@@ -80,7 +80,8 @@ rotuer.post('/login',
 
     try {
         const user = req.user;
-        if(!user.status) {
+        console.log(user);
+        if(user.status === false) {
             return res.json({status: false})
         }
         const payload = {
